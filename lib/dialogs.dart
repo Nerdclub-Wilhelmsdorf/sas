@@ -54,4 +54,14 @@ void showDialogs(context, res) {
         );
             }
             }
+            if (res == 5){
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("QR Code ungültig!"),
+                  );     
+          },
+        );
+            }
 }
