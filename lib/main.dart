@@ -269,7 +269,8 @@ SizedBox(
     if (response.data == "wrong pin") {
       return 2;
     }
-    return 3;
+
+    return showSuccessDialog(context, amount);
   }
 
   void clearInputs() {

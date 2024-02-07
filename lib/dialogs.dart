@@ -65,3 +65,23 @@ void showDialogs(context, res) {
         );
             }
 }
+
+showSuccessDialog(context, amount) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+
+        title: Text("Bezahlen:"),
+        content: Column(
+          children: [
+            Text("Betrag:"+ amount),
+            Text("Steuer:"+ (double.parse(amount) * 0.1).toString()),
+            Text("Gesamt:"+ (double.parse(amount) * 1.1).toString()),
+          ],
+        ),
+
+      );
+    },
+  );
+}
