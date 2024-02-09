@@ -207,27 +207,37 @@ SizedBox(
                 ),
               ),
             ),
-            ElevatedButton(
-                child: Text("Bezahlen"),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Color.fromARGB(255, 0, 148, 145),
-                  elevation: 0,
-                ),
-                onPressed: !inputsValid(
-                        _controllerAcc1.text,
-                        _controllerAcc2.text,
-                        _controllerAmount.text,
-                        _controllerPin.text)
-                    ? null
-                    : () async {
-                        var res = await pay(
+            Row(
+              children: [
+                ElevatedButton(
+                    child: Text("Bezahlen"),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Color.fromARGB(255, 0, 148, 145),
+                      elevation: 0,
+                    ),
+                    onPressed: !inputsValid(
                             _controllerAcc1.text,
                             _controllerAcc2.text,
                             _controllerAmount.text,
-                            _controllerPin.text);
-                        showDialogs(context, res);
-                      })
+                            _controllerPin.text)
+                        ? null
+                        : () async {
+                            var res = await pay(
+                                _controllerAcc1.text,
+                                _controllerAcc2.text,
+                                _controllerAmount.text,
+                                _controllerPin.text);
+                            showDialogs(context, res);
+                          }),
+                Visibility(child: double.tryParse(_controllerAmount.text) != null ? Text((double.parse(_controllerAmount.text)*1.1).toStringAsFixed(3) + "D", textScaleFactor: 1.72,) : Text("")
+                , visible: inputsValid(
+                            _controllerAcc1.text,
+                            _controllerAcc2.text,
+                            _controllerAmount.text,
+                            _controllerPin.text))
+              ],
+            )
           ],
         ),
       ),
@@ -261,7 +271,7 @@ SizedBox(
     print(response.data);
     if (response.data == "success") {
       clearInputs();
-      return 0;
+    return showSuccessDialog(context, amount);
     }
     if (response.data == "Not enough money") {
       return 1;
@@ -269,8 +279,8 @@ SizedBox(
     if (response.data == "wrong pin") {
       return 2;
     }
+    return 4;
 
-    return showSuccessDialog(context, amount);
   }
 
   void clearInputs() {

@@ -70,17 +70,19 @@ showSuccessDialog(context, amount) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
-
-        title: Text("Bezahlen:"),
-        content: Column(
-          children: [
-            Text("Betrag:"+ amount),
-            Text("Steuer:"+ (double.parse(amount) * 0.1).toString()),
-            Text("Gesamt:"+ (double.parse(amount) * 1.1).toString()),
-          ],
+      return SizedBox(
+        height: 200,
+        child: AlertDialog(
+          title: Text("Bezahlen:"),
+          content: Column(
+            children: [
+              Text("Betrag:"+ amount),
+              Text("Steuer:"+ (double.parse(amount) * 0.1).toString()),
+              Text("Gesamt:"+ (double.parse(amount) * 1.1).toString()),
+            ],
+          ),
+        
         ),
-
       );
     },
   );
