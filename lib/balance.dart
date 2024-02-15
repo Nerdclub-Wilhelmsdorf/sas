@@ -27,44 +27,36 @@ class _BalanceState extends State<Balance> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
                 height: 70,
-                child: Positioned(
-                        left: 0,
-                        right: 75,
-                        child: TextFormField(
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          controller: controllerAcc,
-                          decoration: const InputDecoration(
-                            labelText: 'Konto',
-                            border: OutlineInputBorder(),
-                            suffixIcon: Icon(
-                            Icons.account_balance,
-                            ),
-                          ),
-                        ),
-                      ),
+                child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  controller: controllerAcc,
+                  decoration: const InputDecoration(
+                    labelText: 'Konto',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(
+                    Icons.account_balance,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.2,
                 height: 70,
-                child: Positioned(
-                        left: 0,
-                        right: 75,
-                        child: TextFormField(
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          controller: controllerPin,
-                          decoration: const InputDecoration(
-                            labelText: 'PIN',
-                            border: OutlineInputBorder(),
-                            suffixIcon: Icon(
-                            Icons.pin,
-                            ),
-                          ),
-                        ),
-                      ),
+                child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  controller: controllerPin,
+                  decoration: const InputDecoration(
+                    labelText: 'PIN',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(
+                    Icons.pin,
+                    ),
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center, 
