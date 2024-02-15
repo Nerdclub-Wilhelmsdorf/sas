@@ -224,9 +224,8 @@ SizedBox(
                                 _controllerAcc2.text,
                                 _controllerAmount.text,
                                 _controllerPin.text);
-                            showDialogs(context, res);
                           }),
-                Visibility(child: double.tryParse(_controllerAmount.text) != null ? Text((double.parse(_controllerAmount.text)*1.1).toStringAsFixed(3) + "D", textScaleFactor: 1.72,) : Text("")
+                Visibility(child: double.tryParse(_controllerAmount.text) != null ? Text((double.parse(_controllerAmount.text)*1.1).toStringAsFixed(3).replaceAll(".", ",") + "D", textScaleFactor: 1.72): Text("")
                 , visible: inputsValid(
                             _controllerAcc1.text,
                             _controllerAcc2.text,
@@ -257,9 +256,10 @@ Future<int> pay(String acc1, String acc2, String amount, String pin) async {
     //print("Bezahle " + amount + " von " + acc1 + " nach " + acc2 + " mit PIN " + pin);
     final dio = Dio();
     try {
-      await dio.get('http://localhost:1323/');
+      await dio.get(URL);
     } on DioException catch (e) {
       // The request was made and the serve
+      
       //r responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
@@ -267,7 +267,7 @@ Future<int> pay(String acc1, String acc2, String amount, String pin) async {
       }
     }
     try {
-      var res = await dio.get('http://localhost:1323/');
+      var res = await dio.get(URL);
       if (res.data != "0") {
         return 4;
       }
@@ -275,20 +275,25 @@ Future<int> pay(String acc1, String acc2, String amount, String pin) async {
       print(e);
       return 4;
     }
+    showLoadingDialog(context);
     var response = await dio.post(URL + "/pay",
         data: {"acc1": acc1, "acc2": acc2, "amount": amount, "pin": pin});
+    Navigator.pop(context);
     print(response.data);
     if (response.data == "success") {
       clearInputs();
-    return showSuccessDialog(context, amount);
+    return 5;
+
     }
     if (response.data == "Not enough money") {
-      return 1;
+      showErrorDialog(context, "Nicht genug Geld!");
     }
     if (response.data == "wrong pin") {
-      return 2;
+      showErrorDialog(context, "Falsche PIN!");
     }
+    showErrorDialog(context, "Fehler! Bitte überprüfen Sie Ihre Eingaben und Internetverbindung");
     return 4;
+
 
   }
 }
