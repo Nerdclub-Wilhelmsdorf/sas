@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 import 'package:sas/dialogs.dart';
 import 'package:sas/main.dart';
-import 'package:sas/readQr.dart';
 
 class SAS extends StatefulWidget {
   const SAS({Key? key}) : super(key: key);
@@ -12,6 +12,7 @@ class SAS extends StatefulWidget {
 }
 
 class _SASState extends State<SAS> {
+  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
   final _controllerAcc1 = TextEditingController();
   final _controllerAcc2 = TextEditingController();
   final _controllerAmount = TextEditingController();
@@ -80,14 +81,25 @@ class _SASState extends State<SAS> {
                   });
                 },
               ),
-              IconButton(onPressed: () async{
-                var res = await readQr(context);
-                if(res != "invalid"){
-                  _controllerAcc1.text = res;
-                }else{
-                  showDialogs(context, 5);
-                }
-              }, icon: Icon(Icons.qr_code))
+                IconButton(
+                onPressed: () {
+                    _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
+                        context: context,
+                        onCode: (code) {
+                          if(code == null){
+                            return;
+                          }
+                          var codeShort = code.substring(15,code.length);
+
+                          if(codeShort.substring(0,2) == "m:"){
+                            setState(() {
+                            _controllerAcc2.text = codeShort.substring(2, codeShort.length);
+                          });
+                          }
+                         
+                        });
+                  }, icon: Icon(Icons.qr_code))
+
             ],
           ),
         ),
@@ -133,9 +145,25 @@ SizedBox(
                   });
                 },
               ),
-              IconButton(onPressed: () {
+              IconButton(
+                onPressed: () {
+                    _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
+                        context: context,
+                        onCode: (code) {
+                          if(code == null){
+                            return;
+                          }
+                          var codeShort = code.substring(15,code.length);
 
-              }, icon: Icon(Icons.qr_code))
+                          if(codeShort.substring(0,2) == "m:"){
+                            setState(() {
+                            _controllerAcc2.text = codeShort.substring(2, codeShort.length);
+                          });
+                          }
+                         
+                        });
+                  }, icon: Icon(Icons.qr_code))
+
             ],
           ),
         ),
