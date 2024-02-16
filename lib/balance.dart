@@ -3,6 +3,7 @@
 
   import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 import 'package:sas/main.dart';
 
 class Balance extends StatefulWidget {
@@ -13,6 +14,7 @@ class Balance extends StatefulWidget {
 }
 
 class _BalanceState extends State<Balance> {
+    final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
     var balance = "";
     var controllerAcc = TextEditingController();
     var controllerPin = TextEditingController();
@@ -24,22 +26,45 @@ class _BalanceState extends State<Balance> {
 
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: 70,
-                child: TextFormField(
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  controller: controllerAcc,
-                  decoration: const InputDecoration(
-                    labelText: 'Konto',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(
-                    Icons.account_balance,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: 70,
+                    child: TextFormField(
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                      controller: controllerAcc,
+                      decoration: const InputDecoration(
+                        labelText: 'Konto',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(
+                        Icons.account_balance,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                IconButton(
+                onPressed: () {
+                    _qrBarCodeScannerDialogPlugin.getScannedQrBarCode(
+                        context: context,
+                        onCode: (code) {
+                          if(code == null){
+                            return;
+                          }
+                          var codeShort = code.substring(15,code.length);
+
+                          if(codeShort.substring(0,2) == "m:"){
+                            setState(() {
+                            controllerAcc.text = codeShort.substring(2, codeShort.length);
+                          });
+                          }
+                         
+                        });
+                  }, icon: Icon(Icons.qr_code))
+                ],
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.2,
