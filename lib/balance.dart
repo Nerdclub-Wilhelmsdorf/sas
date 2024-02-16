@@ -65,19 +65,12 @@ class _BalanceState extends State<Balance> {
                     "Kontostand",
                     textScaleFactor: 2.4,
                   ),
-                  IconButton(onPressed: () {
+                  IconButton(onPressed: () async{
                     balanceCheck(controllerAcc.text, controllerPin.text);
-                    setState(() {
-                      
-                    });
                   }, icon: Icon(Icons.balance),
                   
                   color: Colors.blue,),
                 ],
-              ),
-              Text(
-                balance,
-                textScaleFactor: 2.4,
               ),
             ],
           ),
@@ -89,10 +82,20 @@ class _BalanceState extends State<Balance> {
       if (acc.isEmpty|| pin.isEmpty) {
         return;
       }
-        dio.get(URL + "/balanceCheck", data: {"acc1": acc, "pin": pin}).then((value) {
+        dio.post(URL + "/balanceCheck", data: {"acc1": acc, "pin": pin}).then((value) {
         print(value.data);
-        if (value.statusCode == 200) {
+        print(value.statusCode);
+        if (value.statusCode == 201) {
           balance = value.data;
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Aktueller Kontostand: " + balance + "D"),
+              );
+            },
+          );
+          return;
         }
         if (value.statusCode == 401) {
           showDialog(
