@@ -67,13 +67,14 @@ class _BalanceState extends State<Balance> {
                 ],
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * 0.4,
                 height: 70,
                 child: TextFormField(
                   onChanged: (value) {
                     setState(() {});
                   },
                   controller: controllerPin,
+                  obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'PIN',
                     border: OutlineInputBorder(),
