@@ -309,15 +309,22 @@ Future<int> pay(String acc1, String acc2, String amount, String pin) async {
     Navigator.pop(context);
     print(response.data);
     if (response.data == "success") {
+      showSuccessDialog(context, amount);
       clearInputs();
     return 5;
 
     }
+    if(response.data == "suspended"){
+      showErrorDialog(context, "Konto gesperrt, versuchen Sie es später nocheinmal!");
+      return 5;
+    }
     if (response.data == "Not enough money") {
       showErrorDialog(context, "Nicht genug Geld!");
+      return 2;
     }
     if (response.data == "wrong pin") {
       showErrorDialog(context, "Falsche PIN!");
+      return 4;
     }
     showErrorDialog(context, "Fehler! Bitte überprüfen Sie Ihre Eingaben und Internetverbindung");
     return 4;

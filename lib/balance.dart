@@ -113,6 +113,18 @@ class _BalanceState extends State<Balance> {
         print(value.statusCode);
         if (value.statusCode == 201) {
           balance = value.data;
+          if(value.data == "suspended"){
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Konto gesperrt, versuchen Sie es später nochmal!"),
+                );
+              },
+            );
+            return;
+          
+          }
           showDialog(
             context: context,
             builder: (BuildContext context) {
