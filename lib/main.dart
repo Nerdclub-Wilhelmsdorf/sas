@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sas/balance.dart';
 import 'package:sas/pay.dart';
 
-const URL = "http://localhost:1323";
+const URL = "https://saswdorf.site";
 void main() {
   runApp(MaterialApp(home: const Overview()));
 }
@@ -28,12 +28,12 @@ class _OverviewState extends State<Overview> {
             currentPageIndex = index;
           });
         },
-        destinations: [
-           NavigationDestination(
+        destinations: const [
+            NavigationDestination(
             icon: Icon(Icons.payment),
             label: 'Bezahlen',
           ),
-          NavigationDestination(
+           NavigationDestination(
             icon: Icon(Icons.account_balance),
             label: 'Kontostand',
           ),
