@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sas/balance.dart';
 import 'package:sas/pay.dart';
 
-const URL = "http://localhost:1323";
+const URL = "https://saswdorf.site";
+const token = "test";
 void main() {
   runApp(MaterialApp(home: const Overview()));
 }

@@ -108,7 +108,13 @@ class _BalanceState extends State<Balance> {
       if (acc.isEmpty|| pin.isEmpty) {
         return;
       }
-        dio.post(URL + "/balanceCheck", data: {"acc1": acc, "pin": pin}).then((value) {
+        dio.post(URL + "/balanceCheck",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer " + token,
+            },
+          ),
+         data: {"acc1": acc, "pin": pin}).then((value) {
         print(value.data);
         print(value.statusCode);
         if (value.statusCode == 201) {

@@ -284,7 +284,12 @@ Future<int> pay(String acc1, String acc2, String amount, String pin) async {
     //print("Bezahle " + amount + " von " + acc1 + " nach " + acc2 + " mit PIN " + pin);
     final dio = Dio();
     try {
-      await dio.get(URL);
+      await dio.get(URL,
+          options: Options(
+            headers: {
+            "Authorization": "Bearer " + token,
+            },)
+      );
     } on DioException catch (e) {
       // The request was made and the serve
       
@@ -295,7 +300,14 @@ Future<int> pay(String acc1, String acc2, String amount, String pin) async {
       }
     }
     try {
-      var res = await dio.get(URL);
+      var res = await dio.get(URL,
+          options: Options(
+            headers: {
+            "Authorization": "Bearer " + token,
+            
+            })
+      
+      );
       if (res.data != "0") {
         return 4;
       }
@@ -305,7 +317,12 @@ Future<int> pay(String acc1, String acc2, String amount, String pin) async {
     }
     showLoadingDialog(context);
     var response = await dio.post(URL + "/pay",
-        data: {"acc1": acc1, "acc2": acc2, "amount": amount, "pin": pin});
+        data: {"acc1": acc1, "acc2": acc2, "amount": amount, "pin": pin},
+        options: Options(
+          headers: {
+            "Authorization": "Bearer " + token,
+}
+        ));
     Navigator.pop(context);
     print(response.data);
     if (response.data == "success") {
